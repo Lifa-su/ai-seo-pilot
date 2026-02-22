@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SEOPilot — AI SEO Optimization Tool</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="logo">
+        <span class="logo-icon">🧭</span>
+        <h1>SEOPilot</h1>
+        <span class="badge">2026</span>
+      </div>
+      <p class="tagline">AI-Powered SEO Analysis · Core Web Vitals · AEO · Technical SEO</p>
+      <div class="lang-switch">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="zh">中文</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Input Section -->
+    <section class="input-section">
+      <div class="input-card">
+        <div class="input-group">
+          <label for="url-input" data-i18n="urlLabel">Website URL to analyze</label>
+          <div class="url-row">
+            <input type="url" id="url-input" placeholder="https://example.com" autocomplete="url">
+            <button id="analyze-btn" data-i18n="analyzeBtn">Analyze</button>
+          </div>
+        </div>
+        <div class="options-row">
+          <div class="input-group small">
+            <label for="keyword-input" data-i18n="keywordLabel">Target keyword (optional)</label>
+            <input type="text" id="keyword-input" placeholder="e.g. SEO tools">
+          </div>
+          <div class="input-group small">
+            <label for="competitor-input" data-i18n="competitorLabel">Competitor URLs (comma-separated, optional)</label>
+            <input type="text" id="competitor-input" placeholder="https://competitor1.com, https://competitor2.com">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Loading -->
+    <section id="loading" class="loading hidden">
+      <div class="spinner"></div>
+      <p data-i18n="analyzing">Analyzing page SEO...</p>
+    </section>
+
+    <!-- Error -->
+    <section id="error-section" class="error-section hidden">
+      <div class="error-card">
+        <span class="error-icon">⚠️</span>
+        <p id="error-message"></p>
+      </div>
+    </section>
+
+    <!-- Results -->
+    <section id="results" class="results hidden">
+      <!-- Overall Score -->
+      <div class="score-hero">
+        <div class="score-ring-container">
+          <svg class="score-ring" viewBox="0 0 120 120">
+            <circle class="score-ring-bg" cx="60" cy="60" r="52" />
+            <circle class="score-ring-fill" cx="60" cy="60" r="52" id="score-ring-fill" />
+          </svg>
+          <div class="score-number" id="overall-score">0</div>
+        </div>
+        <div class="score-meta">
+          <h2 id="score-label" data-i18n="overallScore">Overall SEO Score</h2>
+          <p id="score-url" class="score-url"></p>
+          <p id="score-time" class="score-time"></p>
+        </div>
+      </div>
+
+      <!-- Category Cards -->
+      <div class="category-grid">
+        <div class="category-card" data-category="contentSEO">
+          <div class="cat-header">
+            <span class="cat-icon">📝</span>
+            <h3 data-i18n="contentSEO">Content SEO</h3>
+            <span class="cat-score" id="score-contentSEO">0%</span>
+          </div>
+          <div class="cat-bar"><div class="cat-bar-fill" id="bar-contentSEO"></div></div>
+          <div class="cat-checks" id="checks-contentSEO"></div>
+        </div>
+
+        <div class="category-card" data-category="technicalSEO">
+          <div class="cat-header">
+            <span class="cat-icon">⚙️</span>
+            <h3 data-i18n="technicalSEO">Technical SEO</h3>
+            <span class="cat-score" id="score-technicalSEO">0%</span>
+          </div>
+          <div class="cat-bar"><div class="cat-bar-fill" id="bar-technicalSEO"></div></div>
+          <div class="cat-checks" id="checks-technicalSEO"></div>
+        </div>
+
+        <div class="category-card" data-category="coreWebVitals">
+          <div class="cat-header">
+            <span class="cat-icon">⚡</span>
+            <h3 data-i18n="coreWebVitals">Core Web Vitals</h3>
+            <span class="cat-score" id="score-coreWebVitals">0%</span>
+          </div>
+          <div class="cat-bar"><div class="cat-bar-fill" id="bar-coreWebVitals"></div></div>
+          <div class="cat-checks" id="checks-coreWebVitals"></div>
+        </div>
+
+        <div class="category-card" data-category="mobileSEO">
+          <div class="cat-header">
+            <span class="cat-icon">📱</span>
+            <h3 data-i18n="mobileSEO">Mobile SEO</h3>
+            <span class="cat-score" id="score-mobileSEO">0%</span>
+          </div>
+          <div class="cat-bar"><div class="cat-bar-fill" id="bar-mobileSEO"></div></div>
+          <div class="cat-checks" id="checks-mobileSEO"></div>
+        </div>
+
+        <div class="category-card" data-category="socialSEO">
+          <div class="cat-header">
+            <span class="cat-icon">🔗</span>
+            <h3 data-i18n="socialSEO">Social Media SEO</h3>
+            <span class="cat-score" id="score-socialSEO">0%</span>
+          </div>
+          <div class="cat-bar"><div class="cat-bar-fill" id="bar-socialSEO"></div></div>
+          <div class="cat-checks" id="checks-socialSEO"></div>
+        </div>
+
+        <div class="category-card" data-category="aiSearch">
+          <div class="cat-header">
+            <span class="cat-icon">🤖</span>
+            <h3 data-i18n="aiSearch">AI Search / AEO</h3>
+            <span class="cat-score" id="score-aiSearch">0%</span>
+          </div>
+          <div class="cat-bar"><div class="cat-bar-fill" id="bar-aiSearch"></div></div>
+          <div class="cat-checks" id="checks-aiSearch"></div>
+        </div>
+
+        <div class="category-card" data-category="pageSpeed">
+          <div class="cat-header">
+            <span class="cat-icon">🚀</span>
+            <h3 data-i18n="pageSpeed">Page Speed</h3>
+            <span class="cat-score" id="score-pageSpeed">0%</span>
+          </div>
+          <div class="cat-bar"><div class="cat-bar-fill" id="bar-pageSpeed"></div></div>
+          <div class="cat-checks" id="checks-pageSpeed"></div>
+        </div>
+      </div>
+
+      <!-- Keywords Section -->
+      <div class="keywords-section">
+        <h2 data-i18n="keywordsTitle">🔑 Keyword Analysis</h2>
+        <div class="keywords-grid">
+          <div class="kw-card">
+            <h3 data-i18n="topKeywords">Top Keywords</h3>
+            <div id="top-keywords" class="kw-list"></div>
+          </div>
+          <div class="kw-card">
+            <h3 data-i18n="topPhrases">Top Phrases</h3>
+            <div id="top-phrases" class="kw-list"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Competitor Section -->
+      <div id="competitor-section" class="competitor-section hidden">
+        <h2 data-i18n="competitorTitle">🏆 Competitor Analysis</h2>
+        <div id="competitor-results"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>SEOPilot v1.0 · Built for 2025/2026 SEO Standards · Core Web Vitals (INP) · AEO · E-E-A-T</p>
+    </div>
+  </footer>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>

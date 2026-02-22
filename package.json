@@ -1,0 +1,18 @@
+{
+  "name": "seopilot",
+  "version": "1.0.0",
+  "description": "SEOPilot - AI-Powered SEO Optimization Tool for 2025/2026",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["seo", "ai", "optimization", "core-web-vitals", "aeo"],
+  "author": "SEOPilot",
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "express": "^4.21.0",
+    "node-fetch": "^2.7.0"
+  }
+}
